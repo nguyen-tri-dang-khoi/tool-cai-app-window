@@ -12,15 +12,12 @@ for /f "tokens=3" %%a in ('reg query "HKLM\SOFTWARE\Microsoft\Windows NT\Current
 
 for /f "tokens=3" %%a in ('reg query "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion" /v CurrentBuildNumber 2^>nul ^| findstr /i "CurrentBuildNumber"') do set "BUILD=%%a"
 
-echo He dieu hanh: %OSNAME%
-echo Build: %BUILD%
-:: Kiem tra Windows 10/11 toi thieu build 17763
+echo %OSNAME% %BUILD%
 if not defined BUILD (
     echo [LOI] Khong xac dinh duoc Windows Build.
     pause
     exit /b 1
 )
-
 if %BUILD% LSS 17763 (
     echo [LOI] Windows qua cu. Can Windows 10 build 17763 tro len.
     pause
@@ -28,7 +25,6 @@ if %BUILD% LSS 17763 (
 )
 :: Kiem tra WinGet
 winget
-:: Mo trang App Installer chinh thuc de cai dat
 start "" "https://github.com/microsoft/winget-cli/releases"
 
 echo.

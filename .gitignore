@@ -1,3 +1,4 @@
 
 # Ignore all EXE files
 *.exe
+*.msi

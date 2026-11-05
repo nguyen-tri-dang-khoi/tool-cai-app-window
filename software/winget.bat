@@ -25,7 +25,8 @@ if %BUILD% LSS 17763 (
 )
 :: Kiem tra WinGet
 winget
-start "" "https://github.com/microsoft/winget-cli/releases"
+:: start "Download Winget" "https://github.com//microsoft/winget-cli/releases/download/v1.29.380/Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle"
+start "Winget" powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%~dp0download.ps1"
 
 echo.
 pause

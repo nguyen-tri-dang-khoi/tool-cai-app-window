@@ -76,7 +76,7 @@ if "%choice%"=="13" (
         goto MENU
     )
     start "LibreOffice Shortcut" powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%~dp0create_shortcut.ps1"
-    start "LibreOffice File Default" powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%~dp0libreoffice_default.ps1"
+    start "LibreOffice Config" powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%~dp0libreoffice_default.ps1"
     call :INSTALL RARLab.WinRAR
     start "Desktop ControlPanel RecycleBin Shortcut" powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%~dp0icon.ps1"
 

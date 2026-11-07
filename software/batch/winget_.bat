@@ -3,7 +3,7 @@
 chcp 65001 >nul
 setlocal EnableExtensions
 title WinGet - Kiem tra va cai dat
-:: 1. Kiem tra he dieu hanh
+:: Kiem tra he dieu hanh
 for /f "tokens=4-5 delims=. " %%a in ('ver') do (
     set "BUILD=%%b"
 )
@@ -25,8 +25,8 @@ if %BUILD% LSS 17763 (
 )
 :: Kiem tra WinGet
 winget
-:: start "Download Winget" "https://github.com//microsoft/winget-cli/releases/download/v1.29.380/Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle"
-start "Winget" powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%~dp0download.ps1"
+:: https://github.com//microsoft/winget-cli/releases/download/v1.29.380/Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle
+start "Winget" powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%~dp0..\powershell\download.ps1"
 
 echo.
 pause

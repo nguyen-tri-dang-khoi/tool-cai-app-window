@@ -9,7 +9,7 @@ if %errorlevel% neq 0 (
 chcp 65001 >nul
 setlocal EnableExtensions
 title INSTALL PHAN MEM CO BAN
-
+call "%~dp0batch/winget_.bat"
 :MENU
 cls
 echo ==========================================
@@ -58,8 +58,8 @@ if "%choice%"=="10" (
         pause
         goto MENU
     )
-    start "LibreOffice Shortcut" powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%~dp0create_shortcut.ps1"
-    start "LibreOffice Config" powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%~dp0save_as_libreoffice.ps1"
+    start "LibreOffice Shortcut" powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%~dp0powershell\create_shortcut.ps1"
+    start "LibreOffice Config" powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%~dp0powershell\save_as_libreoffice.ps1"
 )
 if "%choice%"=="11" call :INSTALL RARLab.WinRAR
 if "%choice%"=="12" call :INSTALL voidtools.Everything
@@ -76,10 +76,10 @@ if "%choice%"=="13" (
         pause
         goto MENU
     )
-    start "LibreOffice Shortcut" powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%~dp0create_shortcut.ps1"
-    start "LibreOffice Config" powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%~dp0save_as_libreoffice.ps1"
+    start "LibreOffice Shortcut" powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%~dp0powershell\create_shortcut.ps1"
+    start "LibreOffice Config" powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%~dp0powershell\save_as_libreoffice.ps1"
     call :INSTALL RARLab.WinRAR
-    start "Desktop ControlPanel RecycleBin Shortcut" powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%~dp0icon.ps1"
+    start "Desktop ControlPanel RecycleBin Shortcut" powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%~dp0powershell\icon.ps1"
 
 )
 

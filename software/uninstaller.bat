@@ -5,7 +5,12 @@ chcp 65001 >nul
 title UNINSTALL PHAN MEM CO BAN
 color 0C
 mode con: cols=75 lines=30
-
+net session >nul 2>&1
+if %errorlevel% neq 0 (
+    echo Run as administrator.
+    powershell -Command "Start-Process '%~f0' -Verb RunAs"
+    exit /b
+)
 where winget >nul 2>&1
 if errorlevel 1 (
     echo [LOI] May chua co WinGet.
@@ -33,6 +38,7 @@ echo  [8]  LibreOffice
 echo  [9]  Foxit PDF Reader
 echo  [10] UniKey
 echo  [11] PDF-XChange Viewer
+echo  [13] Phan mem co ban
 echo  [0]  Thoat
 echo.
 echo ===========================================================
@@ -60,6 +66,25 @@ if "%CHOICE%"=="10" (
     goto MENU
 ) 
 if "%CHOICE%"=="11" call :REMOVE "PDF-XChange Viewer" "TrackerSoftware.PDF-XChangeViewer" & goto MENU
+if "%CHOICE%"=="13" (
+    cls
+    echo ===========================================================
+    echo PHAN MEM: Chrome, WinRAR, LibreOffice, PDF-XChangeViewer, UniKeyNT
+    echo ===========================================================
+    winget uninstall --id "Google.Chrome" --exact 
+    winget uninstall --id "RARLab.WinRAR" --exact
+    winget uninstall --id "TheDocumentFoundation.LibreOffice" --exact
+    winget uninstall --id "TrackerSoftware.PDF-XChangeViewer" --exact
+    tasklist | findstr /I "UniKeyNT.exe" >nul
+    if %errorlevel%==0 (
+        taskkill /F /IM UniKeyNT.exe
+    )
+    winget uninstall --id "UniKey.UniKey" --exact
+    if exist "%USERPROFILE%\Desktop\UniKey.lnk" (
+        del "%USERPROFILE%\Desktop\UniKey.lnk"
+    )
+    goto MENU
+) 
 if "%CHOICE%"=="0" goto EXIT
 
 echo Lua chon khong hop le.
@@ -72,8 +97,6 @@ echo ===========================================================
 echo PHAN MEM: %~1
 echo PACKAGE ID: %~2
 echo ===========================================================
-echo.
-echo Luu y: chi tiep tuc neu dung phan mem can go.
 set "CONFIRM="
 set /p "CONFIRM=Xac nhan go cai dat (Y/N): "
 

@@ -2,3 +2,6 @@
 # Ignore all EXE files
 *.exe
 *.msi
+*.log
+*.txt
+*.ini

@@ -107,7 +107,7 @@ echo.
 echo ==========================================
 echo Dang cai: %~1
 echo ==========================================
-winget install --id "%~1" --exact --silent --accept-package-agreements --accept-source-agreements
+winget install --id "%~1" --exact --silent --accept-package-agreements --accept-source-agreements --log "%~dp0log\%~1.log"
 if errorlevel 1 (
     echo [LOI] Hay kiem tra goi: %~1
     exit /b 1

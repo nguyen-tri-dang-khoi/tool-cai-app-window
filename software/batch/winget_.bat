@@ -31,5 +31,5 @@ if %errorlevel% equ 0 (
     :: https://github.com//microsoft/winget-cli/releases/download/v1.29.380/Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle
     start "Winget" powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%~dp0..\powershell\download.ps1"
 )
-pause
+timeout /t 3
 exit /b 1

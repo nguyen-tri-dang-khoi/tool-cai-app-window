@@ -2,7 +2,7 @@
 @echo off
 chcp 65001 >nul
 setlocal EnableExtensions
-title WinGet - Kiem tra va cai dat
+title WinGet_
 :: Kiem tra he dieu hanh
 for /f "tokens=4-5 delims=. " %%a in ('ver') do (
     set "BUILD=%%b"

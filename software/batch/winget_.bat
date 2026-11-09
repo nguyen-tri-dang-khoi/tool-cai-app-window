@@ -24,10 +24,12 @@ if %BUILD% LSS 17763 (
     exit /b 1
 )
 :: Kiem tra WinGet
-winget
-:: https://github.com//microsoft/winget-cli/releases/download/v1.29.380/Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle
-start "Winget" powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%~dp0..\powershell\download.ps1"
-
-echo.
+where winget >nul 2>nul
+if %errorlevel% equ 0 (
+    winget --version
+) else (
+    :: https://github.com//microsoft/winget-cli/releases/download/v1.29.380/Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle
+    start "Winget" powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%~dp0..\powershell\download.ps1"
+)
 pause
 exit /b 1

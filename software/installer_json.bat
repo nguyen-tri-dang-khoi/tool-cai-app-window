@@ -10,4 +10,5 @@ setlocal EnableExtensions
 title Cai phan mem tu dong package.json
 call "%~dp0batch/winget_.bat"
 :: doc du lieu danh sach phan mem package.json va tien hanh cai dat
+:: tao file package.json dung lenh "winget export -o packages.json"
 winget import -i package.json --accept-package-agreements --accept-source-agreements

@@ -69,7 +69,7 @@ if "%CHOICE%"=="11" call :REMOVE "PDF-XChange Viewer" "TrackerSoftware.PDF-XChan
 if "%CHOICE%"=="13" (
     cls
     echo ===========================================================
-    echo PHAN MEM: Chrome, WinRAR, LibreOffice, PDF-XChangeViewer, UniKeyNT
+    echo GO CAI DAT PHAN MEM: Chrome, WinRAR, LibreOffice, PDF-XChangeViewer, UniKeyNT
     echo ===========================================================
     winget uninstall --id "Google.Chrome" --exact 
     winget uninstall --id "RARLab.WinRAR" --exact

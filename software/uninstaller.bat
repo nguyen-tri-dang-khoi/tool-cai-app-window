@@ -2,7 +2,7 @@
 @echo off
 setlocal EnableExtensions
 chcp 65001 >nul
-title UNINSTALL PHAN MEM CO BAN
+title GO CAI DAT PHAN MEM
 color 0C
 mode con: cols=75 lines=30
 net session >nul 2>&1

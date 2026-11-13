@@ -8,8 +8,8 @@ if %errorlevel% neq 0 (
 )
 chcp 65001 >nul
 setlocal EnableExtensions
-title INSTALL PHAN MEM CO BAN
 call "%~dp0batch/winget_.bat"
+title CÀI ĐẶT PHẦN MỀM
 :MENU
 cls
 echo ==========================================
@@ -17,18 +17,15 @@ echo       TOOL CÀI PHẦN MỀM TỰ ĐỘNG
 echo ==========================================
 echo.
 echo  [1] Gói cơ bản (google chrome, winrar, libreoffice, unikey, pdf-xchange viewer)
-echo  [2] Goi co ban 2 (VSCode, Virtual Box, Git, Github Desktop, Docker)
-echo  [3] 7-Zip
-echo  [4] VLC Media Player
-echo  [5] LibreOffice
-echo  [6] UltraViewer
-echo  [7] UniKey
-echo  [8] PDF-XChange Viewer
-echo  [9] Google Chrome
-echo  [10] WinRAR
-echo  [11] TeamViewer
-echo  [12] Danh muc ngon ngu
-echo  [0] Thoat
+echo  [2] Gói cơ bản 2 (VSCode, Virtual Box, Git, Github Desktop, Docker)
+echo.
+echo  [3] 7-Zip         [4] VLC Media Player        [5] LibreOffice
+echo  [6] UltraViewer   [7] UniKey                  [8] PDF-XChange Viewer
+echo  [9] Chrome        [10] WinRAR                 [11] TeamViewer
+echo.
+echo  [12] Ngôn ngữ lập trình
+echo.
+echo  [0] Thoát
 echo.
 set /p choice=Nhập lựa chọn: 
 
@@ -81,20 +78,20 @@ if "%choice%"=="10" call :INSTALL RARLab.WinRAR
 if "%choice%"=="11" call :INSTALL TeamViewer.TeamViewer
 
 echo.
-echo Da xu ly xong danh sach.
+echo Đã xử lý xong danh sách
 pause
 goto MENU
 
 :INSTALL
 echo.
 echo ==========================================
-echo Dang cai: %~1
+echo Đang cài: %~1
 echo ==========================================
 winget install --id "%~1" --exact --silent --accept-package-agreements --accept-source-agreements --log "%~dp0log\%~1.log"
 if errorlevel 1 (
-    echo [LOI] Hay kiem tra goi: %~1
+    echo [LOI] Kiểm tra lại: %~1
     exit /b 1
 ) else (
-    echo [OK] Lenh cai dat thanh cong: %~1
+    echo [OK] Cài đặt thành công: %~1
     exit /b 0
 )

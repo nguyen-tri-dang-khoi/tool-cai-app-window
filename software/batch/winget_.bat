@@ -2,7 +2,7 @@
 @echo off
 chcp 65001 >nul
 setlocal EnableExtensions
-title WinGet_
+title Kiểm tra Winget_
 :: Kiem tra he dieu hanh
 for /f "tokens=4-5 delims=. " %%a in ('ver') do (
     set "BUILD=%%b"
@@ -14,12 +14,12 @@ for /f "tokens=3" %%a in ('reg query "HKLM\SOFTWARE\Microsoft\Windows NT\Current
 
 echo %OSNAME% %BUILD%
 if not defined BUILD (
-    echo [LOI] Khong xac dinh duoc Windows Build.
+    echo [LOI] Không xác định được Windows Build
     pause
     exit /b 1
 )
 if %BUILD% LSS 17763 (
-    echo [LOI] Windows qua cu. Can Windows 10 build 17763 tro len.
+    echo [LOI] Windows quá cũ. Yêu cầu Windows 10 build 17763 trở lên.
     pause
     exit /b 1
 )

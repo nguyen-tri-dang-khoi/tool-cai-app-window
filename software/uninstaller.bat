@@ -2,7 +2,7 @@
 @echo off
 setlocal EnableExtensions
 chcp 65001 >nul
-title GO CAI DAT PHAN MEM
+title GỠ BỎ PHẦN MỀM
 color 0C
 mode con: cols=75 lines=30
 net session >nul 2>&1
@@ -13,8 +13,7 @@ if %errorlevel% neq 0 (
 )
 where winget >nul 2>&1
 if errorlevel 1 (
-    echo [LOI] May chua co WinGet.
-    echo Hay cai App Installer tu Microsoft Store.
+    echo [LOI] Máy chưa có Winget.
     pause
     exit /b 1
 )
@@ -22,28 +21,22 @@ if errorlevel 1 (
 :MENU
 color 0C
 cls
-echo ===========================================================
-echo                 SOFTWARE UNINSTALL TOOL
-echo                    WINDOWS 10 / 11
-echo ===========================================================
+echo =================================================================================
+echo                              TOOL GỠ BỎ PHẦN MỀM
+echo =================================================================================
 echo.
-echo  [1]  Google Chrome
-echo  [2]  7-Zip
-echo  [3]  VLC Media Player
-echo  [4]  WinRAR
-echo  [5]  Visual Studio Code
-echo  [6]  Git
-echo  [7]  Python 3.13
-echo  [8]  LibreOffice
-echo  [9]  Foxit PDF Reader
-echo  [10] UniKey
-echo  [11] PDF-XChange Viewer
-echo  [13] Phan mem co ban
-echo  [0]  Thoat
+echo [1] Gói cơ bản   (Google Chrome, Winrar, LibreOffice, Unikey, PDF-XChange Viewer)
+echo [1] Gói cơ bản 2 (VSCode, Virtual Box, Git, Github Desktop, Docker)
+echo.
+echo [3]  7-Zip             [4]  VLC Media Player        [5]  LibreOffice
+echo [6]  UltraViewer       [7]  UniKey                  [8]  PDF-XChange Viewer
+echo [9]  Chrome            [10] WinRAR                  [11] TeamViewer
+echo [12] VSCode            [13] Virtual Box             [14] Git
+echo [15] Github Desktop    [16] Docker
+echo [0]  Thoát
 echo.
 echo ===========================================================
-set "CHOICE="
-set /p "CHOICE=Chon chuc nang: "
+set /p "CHOICE=Nhập lựa chọn: "
 
 if "%CHOICE%"=="1" call :REMOVE "Google Chrome" "Google.Chrome" & goto MENU
 if "%CHOICE%"=="2" call :REMOVE "7-Zip" "7zip.7zip" & goto MENU
@@ -69,7 +62,7 @@ if "%CHOICE%"=="11" call :REMOVE "PDF-XChange Viewer" "TrackerSoftware.PDF-XChan
 if "%CHOICE%"=="13" (
     cls
     echo ===========================================================
-    echo GO CAI DAT PHAN MEM: Chrome, WinRAR, LibreOffice, PDF-XChangeViewer, UniKeyNT
+    echo GỠ CÀI ĐẶT PHẦN MỀM: Chrome, WinRAR, LibreOffice, PDF-XChangeViewer, UniKeyNT
     echo ===========================================================
     winget uninstall --id "Google.Chrome" --exact 
     winget uninstall --id "RARLab.WinRAR" --exact
@@ -87,18 +80,18 @@ if "%CHOICE%"=="13" (
 ) 
 if "%CHOICE%"=="0" goto EXIT
 
-echo Lua chon khong hop le.
+echo Lựa chọn không hợp lệ
 timeout /t 2 >nul
 goto MENU
 
 :REMOVE
 cls
 echo ===========================================================
-echo PHAN MEM: %~1
+echo PHẦN MỀM: %~1
 echo PACKAGE ID: %~2
 echo ===========================================================
 set "CONFIRM="
-set /p "CONFIRM=Xac nhan go cai dat (Y/N): "
+set /p "CONFIRM=Xác nhận gỡ cài đặt (Y/N): "
 
 if /i not "%CONFIRM%"=="Y" exit /b 0
 
@@ -106,11 +99,11 @@ echo.
 winget uninstall --id "%~2" --exact
 if errorlevel 1 (
     echo.
-    echo [!] Khong go duoc bang ID nay.
-    echo Hay dung muc tim kiem hoac winget list de kiem tra.
+    echo [!] Không gỡ được ID này
+    echo Hãy tìm kiếm hoặc dùng winget list để kiểm tra
 ) else (
     echo.
-    echo Lenh go cai dat da hoan tat.
+    echo Lệnh gỡ cài đặt hoàn tất
 )
 pause
 exit /b 0

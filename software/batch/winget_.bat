@@ -14,12 +14,12 @@ for /f "tokens=3" %%a in ('reg query "HKLM\SOFTWARE\Microsoft\Windows NT\Current
 
 echo %OSNAME% %BUILD%
 if not defined BUILD (
-    echo [LOI] Không xác định được Windows Build
+    echo [Lỗi] Không xác định được Windows Build
     pause
     exit /b 1
 )
 if %BUILD% LSS 17763 (
-    echo [LOI] Windows quá cũ. Yêu cầu Windows 10 build 17763 trở lên.
+    echo [Lỗi] Windows quá cũ. Yêu cầu Windows 10 build 17763 trở lên.
     pause
     exit /b 1
 )

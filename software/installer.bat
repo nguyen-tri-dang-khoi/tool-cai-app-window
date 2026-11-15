@@ -10,6 +10,14 @@ chcp 65001 >nul
 setlocal EnableExtensions
 call "%~dp0batch/winget_.bat"
 title CÀI ĐẶT PHẦN MỀM
+:MENU_LANG_PROGRAMMING
+cls
+echo =================================================================================
+echo                           CHỌN NGÔN NGỮ
+echo =================================================================================
+echo [18] NodeJS           [19]  Python        [20]  C++
+echo [21] Java             [22]  C             [23]  Thoát
+
 :MENU
 cls
 echo =================================================================================
@@ -25,7 +33,7 @@ echo [9]  Chrome            [10] WinRAR                  [11] TeamViewer
 echo [12] VSCode            [13] Virtual Box             [14] Git
 echo [15] Github Desktop    [16] Docker
 echo.
-echo [12] Ngôn ngữ lập trình
+echo [17] Ngôn ngữ lập trình
 echo.
 echo [0]  Thoát
 echo.
@@ -40,7 +48,7 @@ if "%choice%"=="1" (
     call :INSTALL TrackerSoftware.PDF-XChangeViewer
     call :INSTALL TheDocumentFoundation.LibreOffice
     if errorlevel 1 (
-        echo Cai dat libreoffice that bai
+        echo [Lỗi] LibreOffice cài đặt thất bại
         pause
         goto MENU
     )
@@ -78,11 +86,16 @@ if "%choice%"=="8" call :INSTALL TrackerSoftware.PDF-XChangeViewer
 if "%choice%"=="9" call :INSTALL Google.Chrome
 if "%choice%"=="10" call :INSTALL RARLab.WinRAR
 if "%choice%"=="11" call :INSTALL TeamViewer.TeamViewer
-
+if "%choice%"=="12" call :INSTALL Microsoft.VisualStudioCode
+if "%choice%"=="13" call :INSTALL Oracle.VirtualBox
+if "%choice%"=="14" call :INSTALL Git.Git
+if "%choice%"=="15" call :INSTALL GitHub.GitHubDesktop
+if "%choice%"=="16" call :INSTALL Docker.DockerDesktop
 echo.
 echo Đã xử lý xong danh sách
 pause
 goto MENU
+
 
 :INSTALL
 echo.

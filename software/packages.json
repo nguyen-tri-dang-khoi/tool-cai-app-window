@@ -7,31 +7,28 @@
 			"Packages" : 
 			[
 				{
-					"PackageIdentifier" : "RARLab.WinRAR"
+					"PackageIdentifier" : "RARLab.WinRAR",
 				},
 				{
 					"PackageIdentifier" : "Google.Chrome",
-					"Version": "latest"
 				},
 				{
-					"PackageIdentifier" : "TrackerSoftware.PDF-XChangeViewer"
+					"PackageIdentifier" : "TrackerSoftware.PDF-XChangeViewer",
 				},
 				{
-					"PackageIdentifier" : "Oracle.VirtualBox"
+					"PackageIdentifier" : "Oracle.VirtualBox",
 				},
 				{
-					"PackageIdentifier" : "GitHub.GitHubDesktop"
+					"PackageIdentifier" : "GitHub.GitHubDesktop",
 				},
 				{
-					"PackageIdentifier" : "Microsoft.VisualStudioCode"
+					"PackageIdentifier" : "Microsoft.VisualStudioCode",
 				},
 				{
 					"PackageIdentifier": "VideoLAN.VLC",
-					"Version": "latest"
 				},
 				{
-					"PackageIdentifier": "UltraViewer.UltraViewer",
-					"Version": "latest"
+					"PackageIdentifier": "DucFabulous.UltraViewer",
 				}
 				
 			],

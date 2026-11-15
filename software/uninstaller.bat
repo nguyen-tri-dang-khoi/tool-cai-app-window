@@ -90,6 +90,7 @@ if "%choice%"=="12" call :REMOVE "Visual Studio Code" "Microsoft.VisualStudioCod
 if "%choice%"=="13" call :REMOVE "Virtual Box" "Oracle.VirtualBox" & goto MENU
 if "%choice%"=="14" call :REMOVE "Git" "Git.Git" & goto MENU
 if "%choice%"=="15" call :REMOVE "Github Desktop" "GitHub.GitHubDesktop" & goto MENU
+if "%choice%"=="16" call :REMOVE "Docker" "Docker.DockerDesktop" & goto MENU
 if "%choice%"=="0" goto EXIT
 
 echo Lựa chọn không hợp lệ

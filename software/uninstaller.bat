@@ -32,11 +32,14 @@ echo [6]  UltraViewer       [7]  UniKey                  [8]  PDF-XChange Viewer
 echo [9]  Chrome            [10] WinRAR                  [11] TeamViewer
 echo [12] VSCode            [13] Virtual Box             [14] Git
 echo [15] Github Desktop    [16] Docker
+echo.
+echo [17] Ngôn ngữ lập trình
+echo.
 echo [0]  Thoát
 echo.
 echo ===========================================================
 set /p "choice=Nhập lựa chọn: "
-
+if "%choice%"=="0" goto EXIT
 if "%choice%"=="1" (
     cls
     echo ===========================================================
@@ -91,16 +94,42 @@ if "%choice%"=="13" call :REMOVE "Virtual Box" "Oracle.VirtualBox" & goto MENU
 if "%choice%"=="14" call :REMOVE "Git" "Git.Git" & goto MENU
 if "%choice%"=="15" call :REMOVE "Github Desktop" "GitHub.GitHubDesktop" & goto MENU
 if "%choice%"=="16" call :REMOVE "Docker" "Docker.DockerDesktop" & goto MENU
-if "%choice%"=="0" goto EXIT
-
+if "%choice%"=="17" goto MENU_LANG_PROGRAMMING
 echo Lựa chọn không hợp lệ
 timeout /t 2 >nul
 goto MENU
 
+:MENU_LANG_PROGRAMMING
+cls
+echo ================================================
+echo                  CHỌN NGÔN NGỮ
+echo ================================================
+echo [1]  NodeJS   
+echo [2]  Python     
+echo [3]  Visual Studio Community 2022 (c/c++)
+echo [4]  Xampp (php)
+echo [5]  Quay lại
+echo.
+echo [0] Thoát chương trình
+echo.
+set /p choice=Nhập lựa chọn: 
+if "%choice%"=="0" exit /b
+if "%choice%"=="1" call :REMOVE "NodeJS" "OpenJS.NodeJS.LTS"
+if "%choice%"=="2" call :REMOVE "Python 3.14" "Python.Python.3.14"
+if "%choice%"=="3" winget uninstall --id Microsoft.VisualStudio.2022.Community --exact --silent
+if "%choice%"=="4" call :REMOVE "Xampp" "ApacheFriends.Xampp.8.2"
+if "%choice%"=="5" goto MENU
+echo.
+echo Đã xử lý xong danh sách
+pause
+goto MENU_LANG_PROGRAMMING
+exit /b
+
+
 :REMOVE
 cls
 echo ===========================================================
-echo PHẦN MỀM: %~1
+echo %~1
 echo PACKAGE ID: %~2
 echo ===========================================================
 set "CONFIRM="

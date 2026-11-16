@@ -37,7 +37,7 @@ if "%choice%"=="1" (
     call :INSTALL Google.Chrome
     start ms-settings:defaultapps
     call :INSTALL UniKey.UniKey
-    start "UniKey Shortcut" powershell -NoProfile -ExecutionPolicy Bypass -Command "$p = Join-Path $env:LOCALAPPDATA 'Microsoft\WinGet\Packages'; $exe = Get-ChildItem -Path $p -Filter 'UniKeyNT.exe' -File -Recurse -ErrorAction SilentlyContinue | Select-Object -First 1 -ExpandProperty FullName; if ($exe) { $s = (New-Object -ComObject WScript.Shell).CreateShortcut((Join-Path ([Environment]::GetFolderPath('Desktop')) 'UniKey.lnk')); $s.TargetPath = $exe; $s.WorkingDirectory = Split-Path $exe; $s.Save(); Write-Host 'Da tao shortcut:' $exe } else { Write-Host 'Khong tim thay UniKeyNT.exe. Kiem tra lai viec cai dat.' }"
+    start "UniKey Shortcut" powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%~dp0powershell\unikey_shortcut.ps1"
     call :INSTALL TrackerSoftware.PDF-XChangeViewer
     call :INSTALL TheDocumentFoundation.LibreOffice
     if errorlevel 1 (
@@ -73,7 +73,7 @@ if "%choice%"=="5" (
 if "%choice%"=="6" call :INSTALL DucFabulous.UltraViewer
 if "%choice%"=="7" (
     call :INSTALL UniKey.UniKey
-    start "UniKey Shortcut" powershell -NoProfile -ExecutionPolicy Bypass -Command "$p = Join-Path $env:LOCALAPPDATA 'Microsoft\WinGet\Packages'; $exe = Get-ChildItem -Path $p -Filter 'UniKeyNT.exe' -File -Recurse -ErrorAction SilentlyContinue | Select-Object -First 1 -ExpandProperty FullName; if ($exe) { $s = (New-Object -ComObject WScript.Shell).CreateShortcut((Join-Path ([Environment]::GetFolderPath('Desktop')) 'UniKey.lnk')); $s.TargetPath = $exe; $s.WorkingDirectory = Split-Path $exe; $s.Save(); Write-Host 'Da tao shortcut:' $exe } else { Write-Host 'Khong tim thay UniKeyNT.exe. Kiem tra lai viec cai dat.' }"
+    start "UniKey Shortcut" powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%~dp0powershell\unikey_shortcut.ps1"
 ) 
 if "%choice%"=="8" call :INSTALL TrackerSoftware.PDF-XChangeViewer
 if "%choice%"=="9" call :INSTALL Google.Chrome

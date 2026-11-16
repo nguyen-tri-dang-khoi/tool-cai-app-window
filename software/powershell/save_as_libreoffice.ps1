@@ -23,5 +23,5 @@ foreach ($child in $TempDoc.DocumentElement.ChildNodes) {
     [void]$Fragment.AppendChild($importedNode)
 }
 
-[void]$Items.AppendChild($Fragment);
+[void]$Items.AppendChild($Fragment)
 $Ns.Save($File)

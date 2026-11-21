@@ -1,4 +1,24 @@
 $File = "$env:APPDATA\LibreOffice\4\user\registrymodifications.xcu"
+if (-not (Test-Path $File)) {
+    $SofficePaths = @(
+        "$env:ProgramFiles\LibreOffice\program\soffice.exe",
+        "${env:ProgramFiles(x86)}\LibreOffice\program\soffice.exe"
+    )
+    $SofficeExe = $SofficePaths | Where-Object { Test-Path $_ } | Select-Object -First 1
+    if ($SofficeExe) {
+        Start-Process -FilePath $SofficeExe -ArgumentList "--headless", "--invisible"
+        $Timeout = 0
+        while (-not (Test-Path $File) -and $Timeout -lt 15) {
+            Start-Sleep -Seconds 1
+            $Timeout++
+        }
+        Get-Process -Name "soffice*" -ErrorAction SilentlyContinue | Stop-Process -Force
+        Start-Sleep -Milliseconds 500
+    } else {
+        Write-Error "Không tìm thấy LibreOffice trên máy tính này."
+        exit 1
+    }
+}
 $Ns = New-Object System.Xml.XmlDocument
 $Ns.Load($File);
 
@@ -25,3 +45,5 @@ foreach ($child in $TempDoc.DocumentElement.ChildNodes) {
 
 [void]$Items.AppendChild($Fragment)
 $Ns.Save($File)
+# test
+# notepad.exe "$env:APPDATA\LibreOffice\4\user\registrymodifications.xcu"

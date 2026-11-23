@@ -7,9 +7,12 @@ if %errorlevel% neq 0 (
 )
 chcp 65001 >nul
 setlocal EnableExtensions
+setlocal EnableDelayedExpansion
+
 title CÀI ĐẶT PHẦN MỀM
 
 cd /d "%~dp0"
+
 :MENU
 cls
 echo =================================================================================
@@ -17,27 +20,36 @@ echo                           TOOL CÀI PHẦN MỀM TỰ ĐỘNG
 echo =================================================================================
 echo.
 
-echo [1] Gói cơ bản (google chrome, winrar, libreoffice, unikey, pdf-xchange viewer)
-set /p choice=Nhập lựa chọn: 
-if "%choice%"=="1" (
-    @REM  call :INSTALL ChromeSetup.msi
-    @REM  start ms-settings:defaultapps
-    @REM  call :INSTALL PDFXVwer.exe
+set /a i=0
+
+for %%F in ("%~dp0*.exe" "%~dp0*.msi") do (
+    if exist "%%~fF" (
+        set /a i+=1
+        echo [!i!] %%~nxF
+    )
+)
+echo Tổng số file cài đặt: !i!
+
+echo.
+echo [0] Gói cơ bản (google chrome, winrar, libreoffice, unikey, pdf-xchange viewer)
+set /p choice=Chọn file cài đặt: 
+if "%choice%"=="0" (
+    call :INSTALL ChromeSetup.msi
+    start ms-settings:defaultapps
+    call :INSTALL PDFXVwer.exe
     call :INSTALL LibreOffice_26.8.3_Win_x86-64.msi
     start "LibreOffice Shortcut" powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%~dp0powershell\create_shortcut.ps1"
     start "LibreOffice Config" powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%~dp0powershell\save_as_libreoffice.ps1"
-    @REM  call :INSTALL UniKeyNT.exe
-    @REM  call :INSTALL winrar-x64-723.exe
-    @REM  start "Desktop ControlPanel RecycleBin Shortcut" powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%~dp0powershell\icon.ps1"
+    call :INSTALL UniKeyNT.exe
+    call :INSTALL winrar-x64-723.exe
+    start "Desktop ControlPanel RecycleBin Shortcut" powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%~dp0powershell\icon.ps1"
 )
 echo Đã xử lý xong danh sách
 pause
 goto MENU
 :INSTALL
 echo.
-echo ==========================================
 echo Đang cài file: %~1
-echo ==========================================
 if /I "%~1" == "ChromeSetup.msi" (
     msiexec.exe /i "%~dp0ChromeSetup.msi" /passive /norestart
 ) else if /I "%~1" == "winrar-x64-723.exe" (
@@ -50,4 +62,5 @@ if /I "%~1" == "ChromeSetup.msi" (
     copy /Y "UniKeyNT.exe" "%USERPROFILE%\Desktop\"
 )
 echo [Thành công]: %~1
-echo .
+echo.
+pause

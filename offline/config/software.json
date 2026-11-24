@@ -30,5 +30,17 @@
         "Type": "COPY",
         "Arguments": "",
         "Destination": "Desktop"
+    },
+    {
+        "Name": "UltraViewer",
+        "File": "UltraViewer_setup_6.6.133_vi.exe",
+        "Type": "EXE",
+        "Arguments": "/SP- /VERYSILENT /SUPPRESSMSGBOXES /NORESTART"
+    },
+    {
+        "Name": "7-Zip",
+        "File": "7z2606-x64.msi",
+        "Type": "MSI",
+        "Arguments": "/qn /norestart"
     }
 ]

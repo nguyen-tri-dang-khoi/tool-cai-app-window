@@ -58,7 +58,15 @@ $Clear.Add_Click({
         $List.SetItemChecked($i, $false)
     }
 })
+# Thanh tien trinh 3 cham
+$Dots = 0
+$Timer = New-Object System.Windows.Forms.Timer
+$Timer.Interval = 400
 
+$Timer.Add_Tick({
+    $Dots = ($Dots + 1) % 4
+    $ProgressLabel.Text = "Đang cài đặt $AppName" + ("." * $Dots)
+})
 # Nut cai dat
 $Install = New-Object Windows.Forms.Button
 $Install.Text = "Cài Đặt"
@@ -77,19 +85,37 @@ $Install.Add_Click({
                 Write-Host "[ERROR] Không tìm thấy $($App.File)" -ForegroundColor Red
                 continue
             }
-            Write-Host "[INSTALL] $($App.Name)" -ForegroundColor Cyan
             switch ($App.Type.ToUpper()) {
                 "MSI" {
-                    $Process = Start-Process "msiexec.exe" -ArgumentList "/i `"$File`" $($App.Arguments)" -Wait -PassThru
+                    $Process = Start-Process "msiexec.exe" -ArgumentList "/i `"$File`" $($App.Arguments)" -PassThru
+                    $Dots = 0
+                    while (-not $Process.HasExited) {
+                        $Dots = ($Dots + 1) % 4
+                        Write-Host "`r[INSTALL] $($App.Name)" ("." * $Dots) -NoNewline -ForegroundColor Cyan
+                        Start-Sleep -Milliseconds 400
+                        $Process.Refresh()
+                    }
+                    $Process.WaitForExit()
+                    Write-Host ""
                     if($App.File -eq "LibreOffice_26.8.3_Win_x86-64.msi") {
                         Start-Process powershell.exe -ArgumentList "-NoProfile -ExecutionPolicy Bypass -File `"$PSScriptRoot\powershell\create_shortcut.ps1`"" -Wait
                         Start-Process powershell.exe -ArgumentList "-NoProfile -ExecutionPolicy Bypass -File `"$PSScriptRoot\powershell\save_as_libreoffice.ps1`"" -Wait
-                    }
+                    } 
                 }
                 "EXE" {
-                    $Process = Start-Process -FilePath $File -ArgumentList $App.Arguments -Wait -PassThru
+                    $Process = Start-Process -FilePath $File -ArgumentList $App.Arguments -PassThru
+                    $Dots = 0
+                    while (-not $Process.HasExited) {
+                        $Dots = ($Dots + 1) % 4
+                        Write-Host "`r[INSTALL] $($App.Name)" ("." * $Dots) -NoNewline -ForegroundColor Cyan
+                        Start-Sleep -Milliseconds 400
+                        $Process.Refresh()
+                    }
+                    $Process.WaitForExit()
+                    Write-Host ""
                 }
                 "COPY" {
+                    Write-Host "`r[INSTALL] $($App.Name)..."
                     $Destination = [Environment]::GetFolderPath($App.Destination)
                     Copy-Item $File $Destination -Force
                     $Process = $null
@@ -115,6 +141,7 @@ $Install.Add_Click({
             [Windows.Forms.MessageBox]::Show($_.Exception.Message)
         }
     }
+    Start-Process powershell.exe -ArgumentList "-NoProfile -ExecutionPolicy Bypass -File `"$PSScriptRoot\powershell\icon.ps1`"" -Wait
     [Windows.Forms.MessageBox]::Show("Đã xử lý xong!")
 })
 # Them control vao Form

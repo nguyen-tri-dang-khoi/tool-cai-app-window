@@ -3,14 +3,19 @@
 net session >nul 2>&1
 if %errorlevel% neq 0 (
     echo Run as administrator.
-    powershell -Command "Start-Process '%~f0' -Verb RunAs"
+    powershell -Command "Start-Process '%~f0' -Verb RunAs -Wait"
     exit /b
 )
+cd /d "%~dp0"
 chcp 65001 >nul
 setlocal EnableExtensions
-call "%~dp0batch/winget_.bat"
 title CÀI ĐẶT PHẦN MỀM
-
+if exist "%~dp0data.zip" (
+    start /wait "Dang giai nen du lieu..." powershell.exe -NoProfile -Command "Expand-Archive -Path '%~dp0data.zip' -DestinationPath '%~dp0' -Force"
+)
+if exist "%~dp0batch\winget_.bat" (
+    call "%~dp0batch/winget_.bat"
+)
 :MENU
 cls
 echo =================================================================================
@@ -123,7 +128,7 @@ echo.
 echo ==========================================
 echo Đang cài: %~1
 echo ==========================================
-winget install --id "%~1" --exact --silent --accept-package-agreements --accept-source-agreements --log "%~dp0log\%~1.log"
+winget install --id "%~1" --exact --silent --accept-package-agreements --accept-source-agreements
 if errorlevel 1 (
     echo [Lỗi] Kiểm tra lại: %~1
     exit /b 1

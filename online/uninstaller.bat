@@ -4,12 +4,6 @@ setlocal EnableExtensions
 chcp 65001 >nul
 title GỠ BỎ PHẦN MỀM
 color 0C
-@REM  net session >nul 2>&1
-@REM  if %errorlevel% neq 0 (
-@REM      echo Run as administrator.
-@REM      powershell -Command "Start-Process '%~f0' -Verb RunAs"
-@REM      exit /b
-@REM  )
 where winget >nul 2>&1
 if errorlevel 1 (
     echo [LOI] Máy chưa có Winget.

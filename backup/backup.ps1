@@ -18,7 +18,7 @@ $Drive = Read-Host "Nhập ký tự ổ đĩa (VD: E)"
 if ($Drive -notmatch '^[A-Za-z]$' -or
     -not (Test-Path "$($Drive):\")) {
     Write-Host "Ổ đĩa không hợp lệ!" -ForegroundColor Red
-    exit 1
+    Pause
 }
 
 $Destination = "$($Drive):\du_lieu_khach"

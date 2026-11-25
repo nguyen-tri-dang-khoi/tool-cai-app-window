@@ -15,7 +15,6 @@ Where-Object {
 } | Format-Table DriveLetter, FileSystemLabel,@{Name="TotalSize(GB)"; Expression={[math]::Round($_.Size / 1GB, 2)}}, @{Name="FreeSpace(GB)"; Expression={[math]::Round($_.SizeRemaining / 1GB, 2)}}
 
 $Drive = Read-Host "Nhập ký tự ổ đĩa (VD: E)"
-
 if ($Drive -notmatch '^[A-Za-z]$' -or
     -not (Test-Path "$($Drive):\")) {
     Write-Host "Ổ đĩa không hợp lệ!" -ForegroundColor Red

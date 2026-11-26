@@ -17,7 +17,6 @@ if (-not $IsAdmin) {
     exit
 }
 cmd /c "color 57"
-
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Drawing
 
@@ -36,7 +35,7 @@ function Get-InstalledSoftware {
                     $Apps += [PSCustomObject]@{
                         Name            = $_.DisplayName.Trim()
                         UninstallString = $_.UninstallString
-                        QuietUninstall  = $_.QuietUninstallString
+                        QuietUninstallString  = $_.QuietUninstallString
                     }
                 }
             }
@@ -48,7 +47,7 @@ function Wait-ProcessTree {
     param(
         [int]$ParentId, 
         [string]$AppName,
-        [int]$TimeoutSeconds = 300 # Gioi han toi da 5 phut
+        [int]$TimeoutSeconds = 240
     )
     $Dots = 0
     $Elapsed = 0
@@ -135,6 +134,9 @@ $UninstallBtn.Add_Click({
     foreach ($App in $Selected) {
         try {
             $Cmd = $App.UninstallString.Trim()
+            if($App.QuietUninstallString) {
+                $Cmd = $App.QuietUninstallString.Trim()
+            }
             # Xu ly rieng cho goi MSI (MsiExec.exe)
             if ($Cmd -match "msiexec\.exe") {
                 if ($Cmd -match "\{[0-9A-Fa-f\-]+\}") {
@@ -155,12 +157,10 @@ $UninstallBtn.Add_Click({
                     $ExePath = $Parts[0] + ".exe"
                     $uniArgs = if ($Parts.Count -gt 1) { $Parts[1].Trim() } else { "" }
                 }
-
                 if (-not (Test-Path $ExePath)) {
                     Write-Host "[ERROR] Không tìm thấy trình gỡ cài đặt của $($App.Name)" -ForegroundColor Red
                     continue
                 }
-                Write-Host $uniArgs
                 if ([string]::IsNullOrWhiteSpace($uniArgs)) {
                     $Process = Start-Process -FilePath $ExePath -PassThru
                 } else {

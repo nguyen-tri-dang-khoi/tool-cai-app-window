@@ -26,6 +26,26 @@ if ($PSScriptRoot) {
 
 $appDirs = Join-Path -Path $ThuMucGoc -ChildPath "Apps"
 
+function Wait-ProcessTree {
+    param(
+        [int]$ParentId, 
+        [string]$AppName,
+        [int]$TimeoutSeconds = 300 # Gioi han toi da 5 phut
+    )
+    $Dots = 0
+    $Elapsed = 0
+    do {
+        $Dots = ($Dots + 1) % 4
+        Write-Host "`r[INSTALL] $AppName" ("." * $Dots) -NoNewline -ForegroundColor Cyan
+        Start-Sleep -Milliseconds 500
+        $Elapsed += 0.5
+        $ParentAlive = Get-Process -Id $ParentId -ErrorAction SilentlyContinue
+        $Children = Get-CimInstance Win32_Process -Filter "ParentProcessId = $ParentId" -ErrorAction SilentlyContinue
+
+    } while (($ParentAlive -or $Children) -and ($Elapsed -lt $TimeoutSeconds))
+    Write-Host ""
+}
+
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Drawing
 # Tao giao dien
@@ -99,15 +119,16 @@ $Install.Add_Click({
             switch ($App.Type.ToUpper()) {
                 "MSI" {
                     $Process = Start-Process "msiexec.exe" -ArgumentList "/i `"$File`" $($App.Arguments)" -PassThru
-                    $Dots = 0
-                    while (-not $Process.HasExited) {
-                        $Dots = ($Dots + 1) % 4
-                        Write-Host "`r[INSTALL] $($App.Name)" ("." * $Dots) -NoNewline -ForegroundColor Cyan
-                        Start-Sleep -Milliseconds 400
-                        $Process.Refresh()
-                    }
-                    $Process.WaitForExit()
-                    Write-Host ""
+                    # $Dots = 0
+                    # while (-not $Process.HasExited) {
+                    #     $Dots = ($Dots + 1) % 4
+                    #     Write-Host "`r[INSTALL] $($App.Name)" ("." * $Dots) -NoNewline -ForegroundColor Cyan
+                    #     Start-Sleep -Milliseconds 400
+                    #     $Process.Refresh()
+                    # }
+                    # $Process.WaitForExit()
+                    # Write-Host ""
+                    Wait-ProcessTree -ParentId $Process.Id -AppName $App.Name
                     if($App.File -eq "LibreOffice_26.8.3_Win_x86-64.msi") {
                         Start-Process powershell.exe -ArgumentList "-NoProfile -ExecutionPolicy Bypass -File `"$ThuMucGoc\powershell\create_shortcut.ps1`"" -Wait
                         Start-Process powershell.exe -ArgumentList "-NoProfile -ExecutionPolicy Bypass -File `"$ThuMucGoc\powershell\save_as_libreoffice.ps1`"" -Wait
@@ -115,18 +136,21 @@ $Install.Add_Click({
                 }
                 "EXE" {
                     $Process = Start-Process -FilePath $File -ArgumentList $App.Arguments -PassThru
-                    $Dots = 0
-                    while (-not $Process.HasExited) {
-                        $Dots = ($Dots + 1) % 4
-                        Write-Host "`r[INSTALL] $($App.Name)" ("." * $Dots) -NoNewline -ForegroundColor Cyan
-                        Start-Sleep -Milliseconds 400
-                        $Process.Refresh()
-                    }
-                    $Process.WaitForExit()
-                    Write-Host ""
+                    Wait-ProcessTree -ParentId $Process.Id -AppName $App.Name
+                    if($App.Name -match "Github Desktop") {
+                        $desktopShortcut = "$env:USERPROFILE\Desktop\GitHub Desktop.lnk"
+                        $startMenuShortcut = "$env:APPDATA\Microsoft\Windows\Start Menu\Programs\GitHub, Inc\GitHub Desktop.lnk"
+
+                        $maxRetries = 30
+                        $attempt = 0
+                        while (-not ((Test-Path $desktopShortcut) -or (Test-Path $startMenuShortcut)) -and ($attempt -lt $maxRetries)) {
+                            $attempt++
+                            Start-Sleep -Seconds 2
+                        }
+                    } 
                 }
                 "COPY" {
-                    Write-Host "`r[INSTALL] $($App.Name)..."
+                    Write-Host "`r[INSTALL] $($App.Name)..." -NoNewline -ForegroundColor Cyan
                     $Destination = [Environment]::GetFolderPath($App.Destination)
                     Copy-Item $File $Destination -Force
                     $Process = $null

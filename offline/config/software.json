@@ -53,12 +53,18 @@
         "Name": "Github Desktop",
         "File": "GitHubDesktopSetup-x64.exe",
         "Type": "EXE",
-        "Arguments": "/S"
+        "Arguments": "-s"
     },
     {
         "Name": "Liên Minh Huyền Thoại",
         "File": "LOL.exe",
         "Type": "EXE",
         "Arguments": "--skip-to-install"
+    },
+    {
+        "Name": "Bandicam",
+        "File": "bdcamsetup.exe",
+        "Type": "EXE",
+        "Arguments": "/S"
     }
 ]

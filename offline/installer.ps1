@@ -15,6 +15,17 @@ if (-not $IsAdmin) {
     )
     exit
 }
+cmd /c "color 57"
+
+if ($PSScriptRoot) {
+    $ThuMucGoc = $PSScriptRoot
+} else {
+    $ExePath = [System.Diagnostics.Process]::GetCurrentProcess().MainModule.FileName
+    $ThuMucGoc = [System.IO.Path]::GetDirectoryName($ExePath)
+}
+
+$appDirs = Join-Path -Path $ThuMucGoc -ChildPath "Apps"
+
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Drawing
 # Tao giao dien
@@ -31,7 +42,7 @@ $List.CheckOnClick = $true
 $List.DisplayMember = "Name"
 
 # Quet file EXE va MSI
-$Config = Join-Path $PSScriptRoot "config\software.json"
+$Config = Join-Path $ThuMucGoc "config\software.json"
 $Software = Get-Content $Config -Raw | ConvertFrom-Json
 
 foreach ($File in $Software) {
@@ -80,7 +91,7 @@ $Install.Add_Click({
     }
     foreach ($App in $Selected) {
         try {
-            $File = Join-Path $PSScriptRoot $App.File
+            $File = [System.IO.Path]::Combine($ThuMucGoc, "apps", $App.File)
             if (-not (Test-Path $File)) {
                 Write-Host "[ERROR] Không tìm thấy $($App.File)" -ForegroundColor Red
                 continue
@@ -98,8 +109,8 @@ $Install.Add_Click({
                     $Process.WaitForExit()
                     Write-Host ""
                     if($App.File -eq "LibreOffice_26.8.3_Win_x86-64.msi") {
-                        Start-Process powershell.exe -ArgumentList "-NoProfile -ExecutionPolicy Bypass -File `"$PSScriptRoot\powershell\create_shortcut.ps1`"" -Wait
-                        Start-Process powershell.exe -ArgumentList "-NoProfile -ExecutionPolicy Bypass -File `"$PSScriptRoot\powershell\save_as_libreoffice.ps1`"" -Wait
+                        Start-Process powershell.exe -ArgumentList "-NoProfile -ExecutionPolicy Bypass -File `"$ThuMucGoc\powershell\create_shortcut.ps1`"" -Wait
+                        Start-Process powershell.exe -ArgumentList "-NoProfile -ExecutionPolicy Bypass -File `"$ThuMucGoc\powershell\save_as_libreoffice.ps1`"" -Wait
                     } 
                 }
                 "EXE" {
@@ -141,7 +152,10 @@ $Install.Add_Click({
             [Windows.Forms.MessageBox]::Show($_.Exception.Message)
         }
     }
-    Start-Process powershell.exe -ArgumentList "-NoProfile -ExecutionPolicy Bypass -File `"$PSScriptRoot\powershell\icon.ps1`"" -Wait
+    
+    if ($List.CheckedItems.Count -eq $List.Items.Count -and $List.Items.Count -gt 0) {
+        Start-Process powershell.exe -ArgumentList "-NoProfile -ExecutionPolicy Bypass -File `"$ThuMucGoc\powershell\icon.ps1`"" -Wait
+    }
     [Windows.Forms.MessageBox]::Show("Đã xử lý xong!")
 })
 # Them control vao Form

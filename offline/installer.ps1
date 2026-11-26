@@ -147,7 +147,24 @@ $Install.Add_Click({
                             $attempt++
                             Start-Sleep -Seconds 2
                         }
-                    } 
+                    } elseif ($App.Name -eq "Liên Minh Huyền Thoại") {
+                        $desktopShortcut1 = "$env:PUBLIC\Desktop\League of Legends.lnk"
+                        $desktopShortcut2 = "$env:USERPROFILE\Desktop\League of Legends.lnk"
+                        $startMenuShortcut = "$env:ProgramData\Microsoft\Windows\Start Menu\Programs\Riot Games\League of Legends.lnk"
+                        $riotClientExe     = "C:\Riot Games\Riot Client\RiotClientServices.exe"
+                        $maxRetries = 60 
+                        $attempt = 0
+
+                        while (-not (
+                            (Test-Path $desktopShortcut1) -or 
+                            (Test-Path $desktopShortcut2) -or 
+                            (Test-Path $startMenuShortcut) -or 
+                            (Test-Path $riotClientExe)
+                        ) -and ($attempt -lt $maxRetries)) {
+                            $attempt++
+                            Start-Sleep -Seconds 2
+                        }
+                    }
                 }
                 "COPY" {
                     Write-Host "`r[INSTALL] $($App.Name)..." -NoNewline -ForegroundColor Cyan

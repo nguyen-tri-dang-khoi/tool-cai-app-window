@@ -147,7 +147,7 @@ $Install.Add_Click({
                             $attempt++
                             Start-Sleep -Seconds 2
                         }
-                    } elseif ($App.Name -eq "Liên Minh Huyền Thoại") {
+                    } elseif ($App.Name -eq "League Of Legends") {
                         $desktopShortcut1 = "$env:PUBLIC\Desktop\League of Legends.lnk"
                         $desktopShortcut2 = "$env:USERPROFILE\Desktop\League of Legends.lnk"
                         $startMenuShortcut = "$env:ProgramData\Microsoft\Windows\Start Menu\Programs\Riot Games\League of Legends.lnk"

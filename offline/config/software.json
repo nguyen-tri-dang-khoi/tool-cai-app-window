@@ -56,7 +56,7 @@
         "Arguments": "-s"
     },
     {
-        "Name": "Liên Minh Huyền Thoại",
+        "Name": "League Of Legends",
         "File": "LOL.exe",
         "Type": "EXE",
         "Arguments": "--skip-to-install"
